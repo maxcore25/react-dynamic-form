@@ -39,15 +39,24 @@ function App() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log({ teamName, members });
-    setTeamName('');
-    setMembers([]);
+
+    const trimmedTeamName = teamName.trim();
+    const trimmedMembers = members.map(member => ({
+      ...member,
+      role: member.role.trim(),
+    }));
+
+    console.log({ teamName: trimmedTeamName, members: trimmedMembers });
+
     toast({
-      title: `Team "${teamName}" created`,
+      title: `Team "${trimmedTeamName}" created`,
       status: 'success',
       duration: 5000,
       isClosable: true,
     });
+
+    setTeamName('');
+    setMembers([]);
   };
 
   return (
