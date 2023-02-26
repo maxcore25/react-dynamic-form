@@ -7,12 +7,14 @@ import {
   FormControl,
   FormLabel,
   Input,
+  useToast,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 
 function App() {
   const [teamName, setTeamName] = useState('');
   const [members, setMembers] = useState([]);
+  const toast = useToast();
 
   const handleChangeTeamName = e => {
     setTeamName(e.target.value);
@@ -40,10 +42,16 @@ function App() {
     console.log({ teamName, members });
     setTeamName('');
     setMembers([]);
+    toast({
+      title: `Team "${teamName}" created`,
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
   };
 
   return (
-    <Center height='100vh'>
+    <Center height='100vh' p={4}>
       <Card maxWidth={500} flex={1} p={6} boxShadow='2xl'>
         <form onSubmit={handleSubmit}>
           <CardHeader p={0} mb={4} fontWeight={700} fontSize={32}>
@@ -56,6 +64,7 @@ function App() {
               value={teamName}
               onChange={handleChangeTeamName}
               required
+              autoFocus
             />
           </FormControl>
           <FormControl mb={4}>
@@ -68,6 +77,7 @@ function App() {
                   value={member.role}
                   onChange={e => handleChangeRole(member.id, e)}
                   required
+                  autoFocus
                 />
                 <Button
                   colorScheme='red'
